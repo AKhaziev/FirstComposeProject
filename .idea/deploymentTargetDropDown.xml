@@ -2,6 +2,31 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="CardTest">
+        <State />
+      </entry>
+      <entry key="InstagramProfileCard">
+        <State />
+      </entry>
+      <entry key="MainActivity">
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="$USER_HOME$/.android/avd/Pixel_8_API_33.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-03-14T10:55:02.432745Z" />
+        </State>
+      </entry>
+      <entry key="TextTest">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>
