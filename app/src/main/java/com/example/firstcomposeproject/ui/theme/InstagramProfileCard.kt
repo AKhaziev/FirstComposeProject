@@ -13,11 +13,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,13 +28,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.firstcomposeproject.MainViewModel
 import com.example.firstcomposeproject.R
 
 @Composable
-fun InstagramProfileCard() {
+fun InstagramProfileCard(
+    viewModel: MainViewModel
+) {
+
+    val isFollowed: State<Boolean> = viewModel.isFollowing.observeAsState(false)
+
+
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -43,26 +52,25 @@ fun InstagramProfileCard() {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
+            Row(
                 modifier = Modifier
-                    .clip(CircleShape)
-                    .background(Color.White)
-                    .padding(8.dp)
-                    .size(40.dp),
-                painter = painterResource(id = R.drawable.instagram_logo),
-                contentDescription = "",
-            )
-            UserStatistics(usersNumber = "6,950", whoUsers = "Posts")
-            UserStatistics(usersNumber = "436M", whoUsers = "Followers")
-            UserStatistics(usersNumber = "76", whoUsers = "Following")
-        }
-
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .background(Color.White)
+                        .padding(8.dp)
+                        .size(40.dp),
+                    painter = painterResource(id = R.drawable.instagram_logo),
+                    contentDescription = "",
+                )
+                UserStatistics(usersNumber = "6,950", whoUsers = "Posts")
+                UserStatistics(usersNumber = "436M", whoUsers = "Followers")
+                UserStatistics(usersNumber = "76", whoUsers = "Following")
+            }
             Text(
                 text = "Instagram",
                 fontSize = 48.sp,
@@ -76,13 +84,34 @@ fun InstagramProfileCard() {
             Text(
                 text = "www.facebook.com/emotional_health",
             )
-            Button(
-                onClick = { /*TODO*/ },
-            ) {
-                Text(text = "Follow")
+            FollowButton(isFollowed = isFollowed.value) {
+                viewModel.changeFollowingStatus()
             }
         }
+    }
+}
 
+@Composable
+private fun FollowButton(
+    isFollowed: Boolean,
+    clickListener: () -> Unit
+) {
+    Button(
+        onClick = {
+            clickListener()
+        },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isFollowed) {
+                MaterialTheme.colorScheme.primary.copy(alpha = 0.5F)
+            } else {
+                MaterialTheme.colorScheme.primary
+            },
+        )
+    ) {
+        val text = if (isFollowed) {
+            "Unfollow"
+        } else "Follow"
+        Text(text = text)
     }
 }
 
@@ -106,18 +135,18 @@ private fun UserStatistics(usersNumber: String, whoUsers: String) {
     }
 }
 
-@Preview
-@Composable
-fun PreviewCardLight() {
-    FirstComposeProjectTheme {
-        InstagramProfileCard()
-    }
-}
+//@Preview
+//@Composable
+//fun PreviewCardLight() {
+//    FirstComposeProjectTheme {
+//        InstagramProfileCard()
+//    }
+//}
 
-@Preview
-@Composable
-fun PreviewCardDark() {
-    FirstComposeProjectTheme(darkTheme = true) {
-        InstagramProfileCard()
-    }
-}
+//@Preview
+//@Composable
+//fun PreviewCardDark() {
+//    FirstComposeProjectTheme(darkTheme = true) {
+//        InstagramProfileCard()
+//    }
+//}
