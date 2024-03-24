@@ -84,7 +84,7 @@ fun InstagramProfileCard(
             Text(
                 text = "www.facebook.com/emotional_health",
             )
-            FollowButton(isFollowed = isFollowed.value) {
+            FollowButton(isFollowed = isFollowed) {
                 viewModel.changeFollowingStatus()
             }
         }
@@ -93,7 +93,7 @@ fun InstagramProfileCard(
 
 @Composable
 private fun FollowButton(
-    isFollowed: Boolean,
+    isFollowed: State<Boolean>,
     clickListener: () -> Unit
 ) {
     Button(
@@ -101,14 +101,14 @@ private fun FollowButton(
             clickListener()
         },
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (isFollowed) {
+            containerColor = if (isFollowed.value) {
                 MaterialTheme.colorScheme.primary.copy(alpha = 0.5F)
             } else {
                 MaterialTheme.colorScheme.primary
             },
         )
     ) {
-        val text = if (isFollowed) {
+        val text = if (isFollowed.value) {
             "Unfollow"
         } else "Follow"
         Text(text = text)
